@@ -1,40 +1,40 @@
 
 ### -------- FONCTIONS UTILITAIRES -------- ###
 
-def valeur_numerologie(lettre):
-    return (ord(lettre.lower()) - 96) % 9 or 9
+def letterToDigit(letter):
+    return (ord(letter.lower()) - 96) % 9 or 9
 
-def reduire_chiffre(somme, titre=""):
-    print(f"\nRéduction pour {titre} :")
-    while somme > 9:
-        # if somme == 11:
-        #     return somme
-        somme = sum([int(chiffre) for chiffre in str(somme)])
-        print(f"Réduction : {somme}")
-    return somme
+def numberToDigit(number, title=""):
+    print(f"\nRéduction pour {title} :")
+    digitResult = sum([int(chiffre) for chiffre in str(number)])
+    while digitResult > 9:
+        digitResult = sum([int(digit) for digit in str(digitResult)])
+        print(f"Réduction : {digitResult}")
+    return digitResult
 
-def reduire_chiffre_2(somme, titre=""):
-    print(f"\nRéduction pour {titre} :")
-    while somme > 9:
-        if somme == 11 or somme == 22 or somme == 33:
+def numberToDigit_2(number, title=""):
+    print(f"\nRéduction pour {title} :")
+    digitResult = sum([int(chiffre) for chiffre in str(number)])
+    while digitResult > 9:
+        if digitResult == 11 or digitResult == 22 or digitResult == 33:
             break
-        somme = sum([int(chiffre) for chiffre in str(somme)])
-        print(f"Réduction : {somme}")
-    return somme
+        digitResult = sum([int(digit) for digit in str(digitResult)])
+        print(f"Réduction : {digitResult}")
+    return digitResult
 
-def somme_lettres_specifiques(nom, lettres_cibles):
-    return sum(valeur_numerologie(lettre) for lettre in nom if lettre.lower() in lettres_cibles)
+def somme_letters_specifiques(nom, letters_cibles):
+    return sum(letterToDigit(letter) for letter in nom if letter.lower() in letters_cibles)
 
 def calculer_somme_consonnes(nom_complet):
     consonnes = "bcdfghjklmnpqrstvwxz"
-    somme_total = sum(somme_lettres_specifiques(partie, consonnes) for partie in nom_complet)
-    somme_consonnes = reduire_chiffre(somme_total, "Moi intime")
+    somme_total = sum(somme_letters_specifiques(partie, consonnes) for partie in nom_complet)
+    somme_consonnes = numberToDigit(somme_total, "Moi intime")
     return somme_consonnes
 
 def calculer_somme_voyelles(nom_complet):
     voyelles = "aeiouy"
-    somme_total = sum(somme_lettres_specifiques(partie, voyelles) for partie in nom_complet)
-    somme_voyelles = reduire_chiffre(somme_total, "Élan spirituel")
+    somme_total = sum(somme_letters_specifiques(partie, voyelles) for partie in nom_complet)
+    somme_voyelles = numberToDigit(somme_total, "Élan spirituel")
     return somme_voyelles
 
 def trouver_annees_personnelles_1(jour, mois, annee_naissance):
@@ -46,13 +46,13 @@ def trouver_annees_personnelles_1(jour, mois, annee_naissance):
     print(annees_personnelles_1)
     return annees_personnelles_1
 
-def trouver_premiere_derniere(lettres, cible):
+def trouver_premiere_derniere(letters, cible):
     premiere = derniere = None
-    for lettre in lettres:
-        if lettre in cible:
+    for letter in letters:
+        if letter in cible:
             if premiere is None:
-                premiere = lettre
-            derniere = lettre
+                premiere = letter
+            derniere = letter
     return premiere, derniere
 
 def obtenir_date_naissance():
@@ -86,15 +86,15 @@ def afficher_resultats(jour, mois, annee, nom_complet, chemin_de_vie):
 def separation():
     print('-'*50)
 
-def afficher_session(titre):
+def afficher_session(title):
     print()
     print()
-    print(f" ☯️ {titre.upper()} ☯️ ")
+    print(f" ☯️ {title.upper()} ☯️ ")
     print()
 
-def sep_session(titre):
+def sep_session(title):
     separation()
-    afficher_session(titre)
+    afficher_session(title)
 
 
 ### -------- CALCUL DU CHEMIN DE VIE -------- ###
@@ -113,26 +113,26 @@ def calculer_chemin_de_vie(jour, mois, annee):
 ### -------- CALCUL DE L'EXPRESSION -------- ###
 
 def somme_nom(nom):
-    somme = sum(valeur_numerologie(lettre) for lettre in nom if lettre.isalpha())
+    somme = sum(letterToDigit(letter) for letter in nom if letter.isalpha())
     print(f"\n{nom.upper()}")
-    for lettre in nom.upper():
-        if lettre.isalpha():
-            print(lettre, end=" ")
+    for letter in nom.upper():
+        if letter.isalpha():
+            print(letter, end=" ")
     print("\n" + "| " * len(nom))
-    for lettre in nom.upper():
-        if lettre.isalpha():
-            print(valeur_numerologie(lettre), end=" ")
+    for letter in nom.upper():
+        if letter.isalpha():
+            print(letterToDigit(letter), end=" ")
     print(f"\n{nom.upper()} = {somme}")
     return somme
 
 def calculer_expression(nom_complet):
     somme_total = sum(somme_nom(partie) for partie in nom_complet)
-    expression = reduire_chiffre(somme_total, "Expression Totale")
+    expression = numberToDigit(somme_total, "Expression Totale")
     return expression
 
 def calculer_expression_specifique(nom_famille, prenom_usuel):
     somme_specifique = somme_nom(nom_famille) + somme_nom(prenom_usuel)
-    expression_specifique = reduire_chiffre(somme_specifique, "Expression Spécifique")
+    expression_specifique = numberToDigit(somme_specifique, "Expression Spécifique")
     return expression_specifique
 
 
@@ -142,13 +142,13 @@ def calculer_annee_personnelle(jour, mois):
     annee_courante = int(input("Entrez l'année courante : "))
     somme = jour + mois + annee_courante
     print(f"Calcul de l'année personnelle : {jour} + {mois} + {annee_courante} = {somme}")
-    annee_personnelle = reduire_chiffre(somme, "Année Personnelle")
+    annee_personnelle = numberToDigit(somme, "Année Personnelle")
     return annee_personnelle
 
 def calculer_annee_personnelle_2(jour, mois, annee):
     somme = jour + mois + annee
     # print(f"Calcul de l'année personnelle : {jour} + {mois} + {annee} = {somme}")
-    annee_personnelle = reduire_chiffre(somme, "Année Personnelle")
+    annee_personnelle = numberToDigit(somme, "Année Personnelle")
     return annee_personnelle
 
 
@@ -157,7 +157,7 @@ def calculer_annee_personnelle_2(jour, mois, annee):
 def calculer_nombre_axial(chemin_de_vie, expression):
     somme = chemin_de_vie + expression
     print(f"Calcul du nombre axial : {chemin_de_vie} + {expression} = {somme}")
-    nombre_axial = reduire_chiffre(somme, "Nombre Axial")
+    nombre_axial = numberToDigit(somme, "Nombre Axial")
     return nombre_axial
 
 
@@ -166,17 +166,17 @@ def calculer_nombre_axial(chemin_de_vie, expression):
 def calculer_nombre_de_force(jour, mois):
     somme = jour + mois
     print(f"Calcul du nombre de force : {jour} + {mois} = {somme}")
-    nombre_de_force = reduire_chiffre(somme, "Nombre de Force")
+    nombre_de_force = numberToDigit(somme, "Nombre de Force")
     return nombre_de_force
 
 
 ### -------- CALCUL DES RÉALISATIONS -------- ###
 
 def calculer_realisations_et_periodes(jour, mois, annee, chemin_de_vie):
-    realisation1 = reduire_chiffre(mois + jour, "Réalisation 1")
-    realisation2 = reduire_chiffre(jour + annee, "Réalisation 2")
-    realisation3 = reduire_chiffre(realisation1 + realisation2, "Réalisation 3")
-    realisation4 = reduire_chiffre(mois + annee, "Réalisation 4")
+    realisation1 = numberToDigit(mois + jour, "Réalisation 1")
+    realisation2 = numberToDigit(jour + annee, "Réalisation 2")
+    realisation3 = numberToDigit(realisation1 + realisation2, "Réalisation 3")
+    realisation4 = numberToDigit(mois + annee, "Réalisation 4")
 
     periode1_fin = 36 - chemin_de_vie
     periode2_fin = periode1_fin + 9
@@ -203,9 +203,9 @@ def calculer_cycles_de_vie(jour, mois, annee):
     age_fin_cycle_formatif = annee_C_1_2 - annee - 1
     age_fin_cycle_productif = annee_C_2_3 - annee - 1
 
-    CF = reduire_chiffre_2(mois, "Réduction pour Cyce formatif")
-    CP = reduire_chiffre_2(jour, "Réduction pour Cyce Productif")
-    CM = reduire_chiffre_2(annee, "Réduction pour Cyce de la Moisson")
+    CF = numberToDigit_2(mois, "Réduction pour Cyce formatif")
+    CP = numberToDigit_2(jour, "Réduction pour Cyce Productif")
+    CM = numberToDigit_2(annee, "Réduction pour Cyce de la Moisson")
 
     print(f"Cycle Formatif | 0 ans ({jour}/{mois}/{annee}) à {age_fin_cycle_formatif} ans (31 décembre {annee_C_1_2 - 1}): {CF}")
     print(f"Cycle Productif | {age_fin_cycle_formatif + 1} ans (1er Janvier {annee_C_1_2}) à {age_fin_cycle_productif} ans (31 décembre {annee_C_2_3 - 1}): {CP}")
@@ -215,9 +215,9 @@ def calculer_cycles_de_vie(jour, mois, annee):
 ### -------- CALCUL DES DÉFIS LIÉS À LA DATE DE NAISSANCE -------- ###
 
 def calculer_defis_numerologiques(jour, mois, annee):
-    jour_reduit = reduire_chiffre(jour, "Jour")
-    mois_reduit = reduire_chiffre(mois, "Mois")
-    annee_reduite = reduire_chiffre(annee, "Année")
+    jour_reduit = numberToDigit(jour, "Jour")
+    mois_reduit = numberToDigit(mois, "Mois")
+    annee_reduite = numberToDigit(annee, "Année")
 
     defi_mineur1 = abs(mois_reduit - jour_reduit)
     defi_mineur2 = abs(jour_reduit - annee_reduite)
@@ -242,8 +242,8 @@ def calculer_defis_appellation(prenom_usuel, nom_famille):
     premiere_voyelle, derniere_voyelle = trouver_premiere_derniere(mot_unique, voyelles)
     premiere_consonne, derniere_consonne = trouver_premiere_derniere(mot_unique, consonnes)
 
-    des = abs(valeur_numerologie(premiere_voyelle) - valeur_numerologie(derniere_voyelle))
-    dmi = abs(valeur_numerologie(premiere_consonne) - valeur_numerologie(derniere_consonne))
+    des = abs(letterToDigit(premiere_voyelle) - letterToDigit(derniere_voyelle))
+    dmi = abs(letterToDigit(premiere_consonne) - letterToDigit(derniere_consonne))
 
     defi_expression = des + dmi
 
@@ -269,9 +269,9 @@ def calculer_defi_jour_naissance(jour):
 ### -------- CALCUL DES DÉFIS DE L'ANNÉE -------- ###
 
 def calculer_defis_annee(jour, mois, annee_courante, annee_personnelle):
-    somme_naissance = reduire_chiffre(jour + mois)
-    acr  = reduire_chiffre(annee_courante)
-    apr = reduire_chiffre(annee_personnelle)
+    somme_naissance = numberToDigit(jour + mois)
+    acr  = numberToDigit(annee_courante)
+    apr = numberToDigit(annee_personnelle)
 
     ds1 = abs(acr - somme_naissance)
     ds2 = abs(apr - somme_naissance)
